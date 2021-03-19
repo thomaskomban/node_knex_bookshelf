@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <style>
+      .db-example{
+        padding: 1.5rem;
+        border-width: 1px;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        position: relative;
+        margin: 1rem -.75rem 0;
+        border: solid #dee2e6;
+
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div style="padding:10px"></div>
+    <h5>Form <span class="badge bg-secondary"></span></h5>
+    <form class="row g-3 needs-validation" action="<%= (!editRec) ? 'http://localhost:3000/forms' : 'http://localhost:3000/fields/'+editRec.id %>" method="<%= (!editRec) ? 'POST' : 'POST' %>" enctype="application/x-www-form-urlencoded"><div class="db-example">
+      <div class="mb-3 row">
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">Id: </span>
+          <input name="id" value="<%= editRec?.id ?? '' %>" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+          <div class="invalid-feedback">
+            Please choose a username.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">Firstname: </span>
+          <input name="firstName" value="<%= editRec?.firstName ?? '' %>" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+          <div class="invalid-feedback">
+            Please choose a username.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">Lastname: </span>
+          <input name="lastName" value="<%= editRec?.lastName ?? '' %>" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+          <div class="invalid-feedback">
+            Please choose a username.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">Email</span>
+          <input name="email" value="<%= editRec?.email ?? '' %>" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+          <div class="invalid-feedback">
+            Please choose a username.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">Date of Birth</span>
+          <input name="dob" value="<%= editRec?.dob ?? '' %>" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+          <div class="invalid-feedback">
+            Please choose a username.
+          </div>
+        </div>
+      </div>
+      <% if (editRec) { %>
+        <input type="hidden" name="_method" value="PUT">
+      <% } %>
+      <div class="col-12">
+        <button class="btn btn-primary" type="submit">Submit form</button>
+      </div></div>
+    </form>
+  </div>
+  <% if (records){ %>
+  <div class="container">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+          <th scope="col">Date of Birth</th>
+          <th scope="col">Email</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% records.forEach(function(formRec){ %>
+        <tr>
+          <th scope="row"><a href="http://localhost:3000/f/<%= formRec.id %>"><%= formRec.id %></a></th>
+          <td><%= formRec.firstName %></td>
+          <td><%= formRec.lastName %></td>          
+          <td><%= formRec.dob %></td>
+          <td><%= formRec.email %></td>   
+          <td><form method="POST" action="http://localhost:3000/fields/d/<%= formRec.id %>">
+              <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-primary" type="submit">Del</button>
+              </div>
+              <input type="hidden" name="_method" value="DELETE">
+            </form></td>       
+        </tr>
+        <%  }) %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</body>
+</html>
